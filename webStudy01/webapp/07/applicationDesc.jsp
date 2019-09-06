@@ -40,9 +40,9 @@
 		 3. Web Resourse
 		 
 		  <%
-		 	File file1 = new File("D:/contents/Desert.jpg");
-		 	DescriptionServlet.class.getResource("Desert.jpg");
-		 	String uri = "/images/Desert.jpg";
+		 	File file1 = new File("D:/contents/Desert.jpg"); //File System Resource
+		 	DescriptionServlet.class.getResource("Desert.jpg"); //Classpath Resource
+		 	String uri = "/images/Desert.jpg"; 
 		 	//String path = application.getRealPath(uri);
 
 		 	//File srcFile = new File(path);

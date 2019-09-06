@@ -42,6 +42,14 @@
 	<session-config>
 		<session-timeout>2</session-timeout>
 	</session-config>
+	<error-page>
+		<exception-type>java.lang.NullPointerException</exception-type>
+		<location>/error/errorNullPoint.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/error/error500.jsp</location>
+	</error-page>
 
 
 </web-app>

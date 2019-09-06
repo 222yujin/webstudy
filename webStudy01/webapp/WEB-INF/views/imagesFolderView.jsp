@@ -10,38 +10,36 @@
 
 
 <body>
-<%
-	String uri = "/images";
-	String path = application.getRealPath(uri);
-	File file1 = new File(path);
-
-	String[] list = file1.list((dir, name) -> {
-		return name.endsWith(".jpg");
-	});
-
-
-%>
-
-<%=path %>
+	<%=request.getContextPath()%>
+	<%
+		String[] imagefiles = (String[]) request.getAttribute("imagefiles");
+		String[] targetfiles = (String[]) request.getAttribute("targetfiles");
+	%>
 	<form method="post">
-		<select name="filename">
+		<select name="filename" required>
+			<option value>이미지 선택</option>
 			<%
-				for (String name : list) {
-			%><option>
-				<%=name%>
-			</option>
+				for (String name : imagefiles) {
+			%>
+			<option><%=name%></option>
 			<%
 				}
 			%>
 
 
-		</select> 
-		<br>
-		<input type="radio" value="copy" name="command" />copy 
-		<input type="radio" value="move" name="command" /> move
-		<input type="radio" value="delete" name="command" />delete
-		<br>
-		<input type="submit" value="명령처리"/>
+		</select> <br> <input type="radio" value="copy" name="command" required />복사
+		<input type="radio" value="move" name="command" required /> 이동 <input
+			type="radio" value="delete" name="command" required />삭제 <br> <input
+			type="submit" value="명령처리" />
 	</form>
+
+	<ul>
+		<%
+			for (String file : targetfiles) {
+		%><li><%=file%></li>
+		<%
+			}
+		%>
+	</ul>
 </body>
 </html>

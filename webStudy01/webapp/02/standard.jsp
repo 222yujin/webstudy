@@ -9,6 +9,12 @@
 </head>
 <body>
 	<h4>JSP 표준 구성 요소</h4>
+		<div style="background-color:yellow;">
+	<%=pageContext.getAttribute("pageAttr") %><br>
+	<%=pageContext.getAttribute("requestAttr",pageContext.REQUEST_SCOPE) %><br>
+	<%=session.getAttribute("sessionAttr") %><br>
+	<%=application.getAttribute("applicationAttr") %><br>
+	</div>
 	<pre>
 		1. 정적 텍스트 : 텍스트,html,css,javascript  클라이언트에서 동작
 		2. JSP 스크립트 요소 : <% %>
