@@ -67,7 +67,8 @@ public class GugudanServlet extends HttpServlet {
       try (
             // closable객체의 선언
             PrintWriter out = resp.getWriter();) {
-         out.println(html);
+    	  	out.println(html);
+    	  	out.println(getServletContext().hashCode());
       }
    }
 
