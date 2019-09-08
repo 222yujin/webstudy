@@ -1,7 +1,6 @@
 <%@page import="java.util.Objects"%>
 <%@page import="java.io.File"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -51,14 +50,15 @@ ul#targetArea {
 </head>
 <body>
 	<%
-		String src = Objects.toString(request.getParameter("src"), "");
-		String target = Objects.toString(request.getParameter("target"), "");
+		//파라미터로 넘어온 값 세팅
+		String src     = Objects.toString(request.getParameter("src"    ), "");
+		String target  = Objects.toString(request.getParameter("target" ), "");
 		String srcFile = Objects.toString(request.getParameter("srcFile"), "");
 	%>
+	
 	<form id="explorerForm">
-		좌패널 위치 : <input type="text" name="src" id="src" value="<%=src%>"
-			readonly /> 우패널 위치 : <input type="text" name="target" id="target"
-			value="<%=target%>" readonly />
+		좌패널 위치 : <input type="text" name="src"    id="src"    value="<%=src%>"    readonly />
+		우패널 위치 : <input type="text" name="target" id="target" value="<%=target%>" readonly />
 	</form>
 	<%!private String getId(File file) {
 		String contextRealPath = getServletContext().getRealPath("");
