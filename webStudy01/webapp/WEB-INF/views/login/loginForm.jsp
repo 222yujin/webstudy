@@ -27,7 +27,7 @@
 			 아이디 : <input type="text" name="mem_id">
 			</li>
 			<li>
-			 비밀번호 : <input type="password" name="mem_pass">
+			 비밀번호 : <input type="text" name="mem_pass">
 			 <input type="submit" value="로그인" />
 			</li>
 			

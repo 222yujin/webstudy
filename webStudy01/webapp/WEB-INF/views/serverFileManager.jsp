@@ -88,7 +88,8 @@ li.active {
 			} else {
 				rightTarget.val($(this).prop("id"));
 			}
-			serverFileForm.submit();
+			//serverFileForm.submit();
+			//ajax 코드를넣으라는데,,?
 		});
 
 		$("#leftArea>.file").on("click", function() {

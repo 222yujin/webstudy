@@ -11,6 +11,12 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 
+import kr.or.ddit.member.exception.NotAuthenticatedException;
+import kr.or.ddit.member.exception.UserNotFoundException;
+import kr.or.ddit.member.service.AuthenticateServiceImpl;
+import kr.or.ddit.member.service.IAuthenticateService;
+import kr.or.ddit.vo.MemberVO;
+
 @WebServlet("/login")
 public class LoginControllerServlet extends HttpServlet {
 	@Override
@@ -35,16 +41,22 @@ public class LoginControllerServlet extends HttpServlet {
 			resp.sendError(400, "로그인 절차가 이상해,,!");
 			return;
 		}
-		// 아이디와 비번이 동일하면 성공
-		if (mem_id.equals(mem_pass)) {
-			session.setAttribute("authMember", mem_id);
+		
+		IAuthenticateService service = new AuthenticateServiceImpl();
+		
+		try {
+			
+			MemberVO savedMember =service.authenticate(new MemberVO(mem_id,mem_pass));
+			session.setAttribute("authMember", savedMember);
+			
+			
 			// 이동방식
 			resp.sendRedirect(req.getContextPath() + "/");
-		} else {
-			String message = "아이디나 비번 오류";
-			session.setAttribute("message", message);
+		}catch (UserNotFoundException  |NotAuthenticatedException e) {
+			session.setAttribute("message", e.getMessage());
 			resp.sendRedirect(req.getContextPath() + "/login");
 		}
+		
 
 	}
 }
