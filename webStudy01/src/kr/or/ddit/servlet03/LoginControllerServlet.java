@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,12 +16,16 @@ import kr.or.ddit.member.exception.NotAuthenticatedException;
 import kr.or.ddit.member.exception.UserNotFoundException;
 import kr.or.ddit.member.service.AuthenticateServiceImpl;
 import kr.or.ddit.member.service.IAuthenticateService;
+import kr.or.ddit.utils.CookieUtil;
 import kr.or.ddit.vo.MemberVO;
 
 @WebServlet("/login")
 public class LoginControllerServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String saveId = new CookieUtil(req).getCookieValue("idCookie");
+		req.setAttribute("saveId", saveId);
+		
 		String viewName = "/WEB-INF/views/login/loginForm.jsp";
 		req.getRequestDispatcher(viewName).forward(req, resp);
 	}
@@ -46,10 +51,18 @@ public class LoginControllerServlet extends HttpServlet {
 		
 		try {
 			
+			
 			MemberVO savedMember =service.authenticate(new MemberVO(mem_id,mem_pass));
+			String checkbox=req.getParameter("idSave");
+			Cookie idCookie =CookieUtil.createCookie("idCookie", mem_id);
+			int maxAge = 0;
+			if("idSave".equals(checkbox)) {
+				maxAge=24*60*60*2;
+			}
+			idCookie.setMaxAge(maxAge);
+			resp.addCookie(idCookie);
+			
 			session.setAttribute("authMember", savedMember);
-			
-			
 			// 이동방식
 			resp.sendRedirect(req.getContextPath() + "/");
 		}catch (UserNotFoundException  |NotAuthenticatedException e) {

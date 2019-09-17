@@ -1,8 +1,14 @@
 package kr.or.ddit.servlet01;
 
 import javax.servlet.http.*;
+
+import kr.or.ddit.utils.CookieUtil;
+import kr.or.ddit.utils.CookieUtil.textType;
+
 import javax.servlet.*;
 import java.io.*;
+import java.net.URLEncoder;
+import java.sql.ResultSet;
 
 public class ImageServlet extends HttpServlet {
 
@@ -22,6 +28,8 @@ public class ImageServlet extends HttpServlet {
 		// Multipurpose Internet Mail Extension
 		resp.setContentType("image/jpeg");
 		String imageName = req.getParameter("image");
+		req.setAttribute("folder", folder);
+
 		int status = 200;
 		if (imageName == null || imageName.trim().length() == 0) {
 			status = HttpServletResponse.SC_BAD_REQUEST;
@@ -32,6 +40,10 @@ public class ImageServlet extends HttpServlet {
 		}
 
 		if (status == 200) {
+			Cookie imageCookie = CookieUtil.createCookie("imageCookie", imageName,
+					req.getContextPath(),textType.PATH,60*60*24*7);
+			resp.addCookie(imageCookie);
+			
 			byte[] buffer = new byte[1024];
 			try (FileInputStream fis = new FileInputStream(imgFile);
 

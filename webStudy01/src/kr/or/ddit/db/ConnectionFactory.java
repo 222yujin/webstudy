@@ -5,31 +5,48 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
+
 /**
  * Factory Object[Method] Pattern
  *
  */
 public class ConnectionFactory {
-	static {
-		ResourceBundle bundle = ResourceBundle.getBundle("kr.or.ddit.db.dbInfo");
-		String driverClassName = bundle.getString("driverClassName");
-		url = bundle.getString("url");
-		user = bundle.getString("user");
-		password = bundle.getString("password");
-
-		try {
-			Class.forName(driverClassName);
-		} catch (ClassNotFoundException e1) {
-			throw new RuntimeException();
-		}
-	}
-
 	static String url;
 	static String user;
 	static String password;
+	static BasicDataSource dataSource;
+	static {
+		
+		ResourceBundle bundle = ResourceBundle.getBundle("kr.or.ddit.db.dbInfo");
+		String driverClassName = bundle.getString("driverClassName");
+		
+		/*
+		 * try { Class.forName(driverClassName); } catch (ClassNotFoundException e1) {
+		 * throw new RuntimeException(); }
+		 */
+		
+		url = bundle.getString("url");
+		user = bundle.getString("user");
+		password = bundle.getString("password");
+		dataSource = new BasicDataSource();
+		dataSource.setDriverClassName(driverClassName);
+		
+		int initialSize = Integer.parseInt(bundle.getString("initialSize"));
+		long maxWait =Long.parseLong(bundle.getString("maxWait"));
+		int maxTotal =Integer.parseInt(bundle.getString("maxTotal"));
+		
+		dataSource.setUrl(url);
+		dataSource.setUsername(user);
+		dataSource.setPassword(password);
+		dataSource.setInitialSize(initialSize);
+		dataSource.setMaxWaitMillis(maxWait);
+		dataSource.setMaxTotal(maxTotal);
+	}
 
 	public static Connection getConnection() throws SQLException {
-		Connection conn = DriverManager.getConnection(url, user, password);
+		// Connection conn = DriverManager.getConnection(url, user, password);
+		Connection conn = dataSource.getConnection();
 		return conn;
 	}
 }

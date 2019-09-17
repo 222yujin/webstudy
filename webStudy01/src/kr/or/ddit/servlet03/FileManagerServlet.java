@@ -61,11 +61,11 @@ public class FileManagerServlet extends HttpServlet {
 			message = e.getMessage();
 		}
 		if (status == 200) {
-			String accept=req.getHeader("Accept");
-			String viewName="";
-			if(accept.contains("json")) {
-				 viewName = ""; //json.jsp 를 만들어서 거기서 처리하게 하자!
-			}else {
+			String accept = req.getHeader("Accept");
+			String viewName = "";
+			if (accept.contains("json")) {
+				viewName = ""; // json.jsp 를 만들어서 거기서 처리하게 하자!
+			} else {
 				viewName = "/WEB-INF/views/serverFileManager.jsp";
 			}
 			req.getRequestDispatcher(viewName).forward(req, resp);
@@ -126,11 +126,12 @@ public class FileManagerServlet extends HttpServlet {
 					status = 400;
 				}
 			}
-			
+
 			if (status == 200) {
 				String viewPtrn = "/serverFileManager?leftSrc=%s&rightTarget=%s&srcFile=%s";
-				resp.sendRedirect(req.getContextPath() + String.format(viewPtrn, leftSrc, rightTarget,srcFileParam));
+				resp.sendRedirect(req.getContextPath() + String.format(viewPtrn, leftSrc, rightTarget, srcFileParam));
 			} else {
+
 				resp.sendError(status);
 			}
 		}
