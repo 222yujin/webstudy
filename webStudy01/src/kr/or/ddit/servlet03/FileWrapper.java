@@ -24,6 +24,8 @@ public class FileWrapper {
 		String absolutePath = resource.getAbsolutePath();
 		id = absolutePath.substring(contextRealPath.length() - 1);
 		id = id.replace(File.separatorChar, '/');
+		file = resource.isFile();
+		directory = resource.isDirectory();
 	}
 
 	private File resource;
@@ -32,14 +34,26 @@ public class FileWrapper {
 
 	private String displayName; // li태그의 innerText
 	private String id; // li태그의 id(서버사이드 경로)
+	private boolean file;
+	private boolean directory;
+
 	
 	
-	public boolean isDirectory() {
-		return resource.isDirectory();
-	}
 
 	public boolean isFile() {
-		return resource.isFile();
+		return file;
+	}
+
+	public void setFile(boolean file) {
+		this.file = file;
+	}
+
+	public boolean isDirectory() {
+		return directory;
+	}
+
+	public void setDirectory(boolean directory) {
+		this.directory = directory;
 	}
 
 	public File getResource() {
@@ -54,4 +68,22 @@ public class FileWrapper {
 		return id;
 	}
 
+	public ServletContext getApplication() {
+		return application;
+	}
+
+	public void setApplication(ServletContext application) {
+		this.application = application;
+	}
+
+
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	
 }

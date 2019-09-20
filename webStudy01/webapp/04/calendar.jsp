@@ -80,6 +80,7 @@
 	<a href="#" onclick="eventHandler(<%=beforeYear%>,<%=beforeMonth%>);">이전
 		달</a> &nbsp;&nbsp;&nbsp;&nbsp;
 	<form name="calForm" method="post">
+		<input type="hidden" name="command" value="calendar" />
 		<input type="number" name="year" value="<%=year%>"
 			onblur="eventHandler();" />년 <select name="month"
 			onchange="eventHandler();">

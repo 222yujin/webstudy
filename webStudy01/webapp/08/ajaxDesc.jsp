@@ -4,7 +4,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"> </script>
+<script type="text/javascript"
+	src="https://code.jquery.com/jquery-3.4.1.min.js"> </script>
 <title>Insert title here</title>
 </head>
 <body>
@@ -20,7 +21,7 @@
 		client.innerHTML =now;
 		
 	$.ajax({
-		url:"getServerTime.jsp",
+		url:"<%=request.getContextPath()%>/08/getServerTime.jsp",
 		//method:"get", 기본이라 생략 가능
 		//data:"", get이라 굳이 줄 것이 없음 있다면 "param=value&param2=value2"
 		dataType:"json",	//Accept:application/json ==Content-Type :application/json 

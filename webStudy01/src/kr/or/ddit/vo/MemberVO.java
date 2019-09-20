@@ -34,7 +34,33 @@ public class MemberVO implements Serializable{
 	private String mem_like;
 	private String mem_memorial;
 	private String mem_memorialday;
+	private int mem_mileage;
+	private String mem_delete;
 	
+	
+	
+
+
+	public int getMem_mileage() {
+		return mem_mileage;
+	}
+
+
+	public void setMem_mileage(int mem_mileage) {
+		this.mem_mileage = mem_mileage;
+	}
+
+
+	public String getMem_delete() {
+		return mem_delete;
+	}
+
+
+	public void setMem_delete(String mem_delete) {
+		this.mem_delete = mem_delete;
+	}
+
+
 	public String getMem_id() {
 		return mem_id;
 	}
