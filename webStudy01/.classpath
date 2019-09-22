@@ -11,5 +11,14 @@
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/commons-io-2.6.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/commons-lang3-3.9-sources.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/commons-lang3-3.9.jar"/>
+	<classpathentry kind="lib" path="webapp/WEB-INF/lib/commons-beanutils-1.8.3.jar"/>
+	<classpathentry kind="lib" path="webapp/WEB-INF/lib/commons-dbcp2-2.7.0-javadoc.jar"/>
+	<classpathentry kind="lib" path="webapp/WEB-INF/lib/myutils.jar"/>
+	<classpathentry kind="lib" path="webapp/WEB-INF/lib/commons-dbcp2-2.7.0-sources.jar"/>
+	<classpathentry kind="lib" path="webapp/WEB-INF/lib/commons-dbcp2-2.7.0.jar"/>
+	<classpathentry kind="lib" path="webapp/WEB-INF/lib/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="webapp/WEB-INF/lib/commons-pool2-2.7.0-javadoc.jar"/>
+	<classpathentry kind="lib" path="webapp/WEB-INF/lib/commons-pool2-2.7.0-sources.jar"/>
+	<classpathentry kind="lib" path="webapp/WEB-INF/lib/commons-pool2-2.7.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
