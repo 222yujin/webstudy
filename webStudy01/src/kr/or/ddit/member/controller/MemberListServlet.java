@@ -16,33 +16,30 @@ import kr.or.ddit.utils.MarshallingUtils;
 import kr.or.ddit.vo.MemberVO;
 
 @WebServlet("/member/memberList.do")
-public class MemberListServlet extends HttpServlet{
-   IMemberService service = new MemberServiceImpl();
-   @Override
-   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-      //2가지 케이스중에 어느 케이스로 왔는지를 잡아야한다 
-      String accept = req.getHeader("Accept");
-      
-      //service -> retr
-      List<MemberVO> list = service.retriveMemberList();
-      if(accept.toLowerCase().contains("json")) {
-         resp.setContentType("application/json;charset=UTF-8");
-         
-         String json = new MarshallingUtils().marshalling(list);
-         
-      try (
-         PrintWriter out = resp.getWriter();   
-      ){
-         out.println(json);
-      }
-      }else {
-         
-         String viewName = "/WEB-INF/views/member/memberList.jsp";
-         req.getRequestDispatcher(viewName).forward(req, resp);
-         
-      }
-      
-      
-      
-   }
+public class MemberListServlet extends HttpServlet {
+	IMemberService service = new MemberServiceImpl();
+
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 2가지 케이스중에 어느 케이스로 왔는지를 잡아야한다
+		String accept = req.getHeader("Accept");
+
+		// service -> retr
+		List<MemberVO> list = service.retriveMemberList();
+		if (accept.toLowerCase().contains("json")) {
+			resp.setContentType("application/json;charset=UTF-8");
+
+			String json = new MarshallingUtils().marshalling(list);
+
+			try (PrintWriter out = resp.getWriter();) {
+				out.println(json);
+			}
+		} else {
+
+			String viewName = "/WEB-INF/views/member/memberList.jsp";
+			req.getRequestDispatcher(viewName).forward(req, resp);
+
+		}
+
+	}
 }

@@ -16,6 +16,7 @@
    if(authMember==null){
 %>
       <a href="<%=request.getContextPath() %>/login">로그인</a>
+      <a href="<%=request.getContextPath() %>/member/memberInsert.do">가입하기</a>
       <%
    }else{
       %>

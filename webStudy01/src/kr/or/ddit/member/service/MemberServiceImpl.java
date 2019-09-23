@@ -16,8 +16,16 @@ public class MemberServiceImpl implements IMemberService {
 
 	@Override
 	public ServiceResult createMember(MemberVO member) {
-		// TODO Auto-generated method stub
-		return null;
+		ServiceResult result = null;
+
+		if (dao.selectMember(member) == null) {
+			int cnt = dao.insertMember(member);
+			if (cnt > 0) result = ServiceResult.OK;
+			else result = ServiceResult.FAILED;
+		} else {
+			result = ServiceResult.PKDUPLICATED;
+		}
+		return result;
 	}
 
 	@Override
