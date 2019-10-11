@@ -8,6 +8,15 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/bootstrap-4.3.1-dist/css/bootstrap.min.css">
+
+<script type="text/javascript"
+	src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script type="text/javascript"
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
 <title>신규 가입</title>
 <%
 	String message = (String) request.getAttribute("message");
@@ -26,12 +35,13 @@
 	<jsp:useBean id="errors" class="java.util.HashMap" scope="request"></jsp:useBean>
 
 	<form method="post">
-		<table>
+		<table class="table">
 			<tr>
 				<th>회원아이디</th>
 				<td><input type="text" required class="form-control"
-					name="mem_id" value="<%=Objects.toString(member.getMem_id(), "")%>" /><span
-					class="error"><%=Objects.toString(errors.get("mem_id"), "")%></span></td>
+					name="mem_id" id="mem_id" readonly value="<%=Objects.toString(member.getMem_id(), "")%>" />
+					<button type="button" id="idCheck">중복확인</button>
+					<span class="error"><%=Objects.toString(errors.get("mem_id"), "")%></span></td>
 			</tr>
 			<tr>
 				<th>비밀번호</th>
@@ -138,5 +148,96 @@
 		</table>
 	</form>
 
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">아이디 확인</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       	<form  id="idCheckForm" method="post" action="<%=request.getContextPath()%>/member/idCheck.do">
+       		<input type="text" name="mem_id" id="checkMemId"/><span id="singid"></span>
+       	</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" id="useId" class="btn btn-primary">아이디 사용하기</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+
+	var exampleModal = $('#exampleModal');
+	var idCheck = $('#idCheck');
+	var checkMemId = $('#checkMemId');
+	var idCheckForm = $('#idCheckForm');
+	var mem_id = $('#mem_id');
+	var useId = $('#useId').hide();
+
+	exampleModal.on('hidden.bs.modal', function() {
+		checkMemId.val("");
+		checkMemId.next(".singid").html("");
+	})
+
+	
+	useId.on('click', function() {
+		mem_id.val(checkMemId.val());
+		exampleModal.modal("hide");
+	})
+
+	idCheckForm.on('submit', function(event) {
+		event.preventDefault();
+		let action =$(this).attr("action");
+		let method =$(this).attr("method");
+		let queryString =$(this).serialize();
+		
+		$.ajax({
+			url : action,
+			method : method?method:"get",
+			data : queryString,
+			dataType : "json",
+			success : function(resp) {
+				if(resp.valid){
+					useId.show();
+				}else{
+					checkMemId.next(".singid").html("아이디 중복");
+					checkMemId.focus();
+				}
+			},
+			error : function(err) {
+				console.log(err.status);
+			}
+		})
+		return false;
+	})
+	
+	
+	idCheck.on('click', function() {
+		exampleModal.modal("show");
+	})
+	
+
+	checkMemId.on('blur', function() {
+		//영문소문자로 시작,영숫자 4~12글자
+		let regex = /^([a-z]+[a-zA-Z0-9]{3,11})$/m;
+		//Look around (look ahead,look behind)
+		//(?!=regex1)(?=regex2)?=regex3
+		//boolean test,array exec,array match
+		let target = $(this).val();
+		let match = regex.exec(target);
+		
+		if(!match){
+			$(this).next(".singid").html("아이디 형식 확인");
+			$(this).focus();
+		} else {
+			exampleModal.find("form").submit();
+		}
+	})
+</script>
 </body>
 </html>

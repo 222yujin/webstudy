@@ -21,7 +21,8 @@ public class BuyerSelectServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		IBuyerService service = new BuyerServiceImpl();
 		List<BuyerVO> list = service.selectBuyerList();
-
+		
+		
 		String accept = req.getHeader("Accept");
 
 		if (accept.toLowerCase().contains("json")) {

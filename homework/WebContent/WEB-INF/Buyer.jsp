@@ -2,12 +2,11 @@
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js" />
-	
-</script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" ></script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
@@ -30,9 +29,10 @@ input[type=text] {
 </style>
 </head>
 <body>
-	<%
-		List<BuyerVO> list = (List) request.getAttribute("list");
-	%>
+
+	
+<c:set var="list"></c:set>
+
 	<div id="div">
 		<div style="display: inline-block; width: 150px;">
 			<div style="padding: 5px; font-weight: bolder;">목록</div>
@@ -202,7 +202,7 @@ input[type=text] {
 		$('#save').on("click",function(){
 			let form = $('#form').serialize();
 			$.ajax({
-				url:'<%=request.getContextPath()%>/buyerInsert',
+				url:'${pageContext.request.contextPath}/buyerInsert',
 				method : 'post',
 				data : form,
 				dataType : "json",
@@ -220,7 +220,7 @@ input[type=text] {
 		$('#delete').on("click",function(){
 			let form = $('#form').serialize();
 			$.ajax({
-				url:'<%=request.getContextPath()%>/buyerDelete',
+				url:'${pageContext.request.contextPath}/buyerDelete',
 				method : 'post',
 				data : form,
 				dataType : "json",
@@ -237,7 +237,7 @@ input[type=text] {
 		$('#update').on("click",function(){
 				let form = $('#form').serialize();
 				$.ajax({
-					url:'<%=request.getContextPath()%>/buyerUpdate',
+					url:'${pageContext.request.contextPath}/buyerUpdate',
 					method : 'post',
 					data : form,
 					dataType : "json",

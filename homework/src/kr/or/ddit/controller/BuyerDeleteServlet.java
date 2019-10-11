@@ -10,15 +10,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import kr.or.ddit.mvc.annotation.CommandHandler;
 import kr.or.ddit.service.BuyerServiceImpl;
 import kr.or.ddit.service.IBuyerService;
 import kr.or.ddit.utils.MarshallingUtils;
 import kr.or.ddit.vo.BuyerVO;
 
-@WebServlet("/buyerDelete")
-public class BuyerDeleteServlet extends HttpServlet{
+@CommandHandler
+public class BuyerDeleteServlet {
 
-	@Override
+	
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		BuyerVO buyer = new BuyerVO();
