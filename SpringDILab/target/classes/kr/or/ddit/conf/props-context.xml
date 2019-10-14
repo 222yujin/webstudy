@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:c="http://www.springframework.org/schema/c"
+   xmlns:context="http://www.springframework.org/schema/context"
+   xmlns:p="http://www.springframework.org/schema/p"
+   xmlns:util="http://www.springframework.org/schema/util"
+   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+      http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+      http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
+<!-- schema : beans,c,p,util,context -->
+
+
+
+<!--    propterties 로딩 방법 -->
+<!--       1. util 네임스페이스를 사용하여 bean으로 등록한다. -->
+   <util:properties id="sampleProps" location="classpath:kr/or/ddit/securedService.xml">
+      <prop key="key1">value1</prop>
+      <prop key="key2">value2</prop>
+   </util:properties>
+   
+<!--       2.context 네임스페이스를 사용하여, Property placeholder형태로 접근한다. 
+            : id가 없기 때문에 해당 자리에서 바로 bean이 등록되는게 아님
+               미리 만들어진 property 안에 해당 데이터를 집어넣음-->
+<!--    <context:property-placeholder location="classpath:kr/or/ddit/securedService.xml"/> -->
+   
+   
+   <!-- securedService.xml에 존재하는 entry값을 넣기 위한 코드-->
+   <bean id="propertyVO1" class="kr.or.ddit.vo.PropertyVO" 
+       c:firstProp="#{sampleProps['/mypage']}"
+       c:SecondProp="#{sampleProps['/member/memberUpdate.do']}"
+   />
+   
+<!--    <bean id="propertyVO2" class="kr.or.ddit.vo.PropertyVO"  -->
+<!--        c:firstProp="${/mypage}" -->
+<!--        c:SecondProp="${/member/memberUpdate.do}" -->
+<!--    /> -->
+   
+<!--    1. dbInfo.properties 파일을 로딩하고 ,DbInfoVO 객체를 빈으로 등록한 후, -->
+<!--    	1)properties 파일을 bean으로 등록 //setter injection-->
+<!--    	2)프로퍼티스 파일을 property Source로 등록 //constructor injection-->
+
+	<util:properties id="dbInfo1" location="classpath:kr/or/ddit/dbInfo.properties"></util:properties>
+	<context:property-placeholder location="classpath:kr/or/ddit/dbInfo.properties"/>
+	
+	<bean id="dbInfoVO1" class="kr.or.ddit.vo.DbInfoVO"
+		p:driverClassName="#{dbInfo1['main.driverClassName']}"
+		p:url="#{dbInfo1['main.url']}"
+		p:user="#{dbInfo1['main.user']*3}"
+		p:password="#{dbInfo1['main.password']}"
+		p:initialSize="#{dbInfo1['main.initialSize']*2}"
+		p:maxTotal="#{dbInfo1['main.maxTotal']+3}"
+		p:maxWait="#{dbInfo1['main.maxWait']}"		
+	/>
+	
+	
+	<bean id="dbInfoVO2" class="kr.or.ddit.vo.DbInfoVO"
+		c:driverClassName="${main.driverClassName}"
+		c:url="${main.url}"
+		c:user="${main.user}"
+		c:password="${main.password}"
+		c:initialSize="${main.initialSize}"
+		c:maxTotal="${main.maxTotal}"
+		c:maxWait="${main.maxWait}"		
+	/>
+		   
+</beans>

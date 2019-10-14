@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:c="http://www.springframework.org/schema/c"
+   xmlns:context="http://www.springframework.org/schema/context"
+   xmlns:p="http://www.springframework.org/schema/p"
+   xmlns:util="http://www.springframework.org/schema/util"
+   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+      http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+      http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
+
+
+   <!-- 스키마 : beans c p context util -->
+	<util:list id="sampleList" scope="prototype" list-class="java.util.LinkedList">
+		 <ref bean="date"/>
+         <value>listText</value>
+	</util:list>
+	<util:set value-type="java.lang.Object" id="sampleSet" set-class="java.util.LinkedHashSet">
+		  <bean class="java.util.Date" />
+          <value>text</value>
+	</util:set>
+	<util:map id="sampleMap" >
+	   <entry key="today">
+               <ref bean="date"/>
+            </entry>
+            <entry key="mapKey1" value="mapValue1">
+            </entry>
+	</util:map>
+	<util:properties id="sampleProps" location="classpath:kr/or/ddit/securedService.xml">
+	 		<prop key="key1">value1</prop>
+            <prop key="key2">value2</prop>
+	</util:properties>
+	
+<!-- 		FactoryBean을 빈으로 등록하는 경우, 해당 factoryBean이 등록되지 않고 -->
+<!-- 		getObject 메소드 내에서 생성되는 객체가 빈으로 등록됨 -->
+	<bean id="sampleArray" class="kr.or.ddit.vo.StringArrayFactoryBean" />
+	
+	
+
+	<bean id="vo2" class="kr.or.ddit.vo.CollectionDIVO" 
+		p:list-ref="sampleList"
+		p:set-ref="sampleSet"
+		p:map-ref="sampleMap"
+		p:props-ref="sampleProps"
+		p:array-ref="sampleArray"
+	/>
+	
+   <bean id="date" class="java.util.Date" />
+   <bean id="vo1" class="kr.or.ddit.vo.CollectionDIVO">
+      <constructor-arg name="list">
+         <list>
+            <ref bean="date"/>
+            <value>listText</value>
+         </list>
+      </constructor-arg>
+
+      <constructor-arg name="set">
+         <set>
+            <bean class="java.util.Date" />
+            <value>text</value>
+         </set>
+      </constructor-arg>
+
+      <constructor-arg name="map">
+         <map>
+            <entry key="today">
+               <ref bean="date"/>
+            </entry>
+            <entry key="mapKey1" value="mapValue1">
+            </entry>
+         </map>
+      </constructor-arg>
+      
+      <constructor-arg name="props">
+         <props>
+            <prop key="key1">value1</prop>
+            <prop key="key2">value2</prop>
+         </props>
+      </constructor-arg>
+      
+      <constructor-arg name="array">
+         <array>
+            <value>arrValue1</value>
+            <value>arrValue2</value>
+         </array>
+      </constructor-arg>
+   </bean>
+</beans>
